@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_to_scheduleEditFragment"
+            app:destination="@id/scheduleEditFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -24,5 +27,18 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_to_scheduleEditFragment"
+            app:destination="@id/scheduleEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/scheduleEditFragment"
+        android:name="com.example.scheduler.ScheduleEditFragment"
+        android:label="@string/schedule_edit_text"
+        tools:layout="@layout/fragment_schedule_edit" >
+        <argument
+            android:name="scheduleId"
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
 </navigation>
