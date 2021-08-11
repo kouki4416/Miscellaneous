@@ -10,6 +10,7 @@ import kotlinx.serialization.parse
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
+// SerializableによりSight->JsonData, JsonData->Sightが可能になる
 @Serializable
 class Sight (
     val name: String,
