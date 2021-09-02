@@ -34,7 +34,8 @@ class MainActivity : AppCompatActivity() {
         linearLayoutManager = LinearLayoutManager(this)
         binding.recyclerviewUsers.layoutManager = linearLayoutManager
 
-        //https://www.youtube.com/watch?v=5gFrXGbQsc8
+        myAdapter = MyAdapter(this, listOf())
+
         getMyData()
     }
 
@@ -51,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         //https://friegen.xyz/android-rxjava-retrofit/
         val retrofitData = retrofitBuilder.getData()
         retrofitData.subscribeOn(Schedulers.io()).subscribeBy(
-            onNext = {  myAdapter = MyAdapter(baseContext, it.items)
+            onNext = {  myAdapter.setData(it.items)
                         myAdapter.notifyDataSetChanged()
                         binding.recyclerviewUsers.adapter = myAdapter },
             onError = { it.printStackTrace() },

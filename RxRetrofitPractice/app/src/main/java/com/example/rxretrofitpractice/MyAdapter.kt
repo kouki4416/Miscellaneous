@@ -9,12 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rxretrofitpractice.dataClass.Item
 import com.example.rxretrofitpractice.dataClass.MyData
 
-class MyAdapter(val context: Context, val userList: List<Item>): RecyclerView.Adapter<MyAdapter.ViewHolder>() {
+class MyAdapter(val context: Context, var userList: List<Item>): RecyclerView.Adapter<MyAdapter.ViewHolder>() {
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         // 引っ張ってくる要素を入れる変数
         var itemId: TextView = itemView.findViewById(R.id.itemId)
         var title: TextView = itemView.findViewById(R.id.itemTitle)
 
+    }
+
+    fun setData(dataList: List<Item>){
+        this.userList = dataList
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
