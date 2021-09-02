@@ -17,64 +17,24 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 //https://www.googleapis.com/books/v1/volumes?q=ドラゴンボール&startIndex=0&maxResults=20
 const val BASE_URL = "https://www.googleapis.com/"
+
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding:ActivityMainBinding
-    lateinit var myAdapter: MyAdapter
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var itemListFragment: ItemListFragment
     lateinit var linearLayoutManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        //viewModelとbindingとつなげる
+        // Binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        // Set up layout manager
-        binding.recyclerviewUsers.setHasFixedSize(true)
-        linearLayoutManager = LinearLayoutManager(this)
-        binding.recyclerviewUsers.layoutManager = linearLayoutManager
-
-        myAdapter = MyAdapter(this, listOf())
-
-        getMyData()
+        // Fragment
+        itemListFragment = ItemListFragment()
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.listContainer, itemListFragment)
+            addToBackStack(null)
+            commit()
+        }
     }
-
-    private fun getMyData() {
-        val retrofitBuilder = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(BASE_URL)
-            //　RetrofitにRxを使うと伝える
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .build()
-            .create(MyApi::class.java)
-
-        // This getData is from api and async using rxjava
-        //https://friegen.xyz/android-rxjava-retrofit/
-        val retrofitData = retrofitBuilder.getData()
-        retrofitData.subscribeOn(Schedulers.io()).subscribeBy(
-            onNext = {  myAdapter.setData(it.items)
-                        myAdapter.notifyDataSetChanged()
-                        binding.recyclerviewUsers.adapter = myAdapter },
-            onError = { it.printStackTrace() },
-            onComplete = { println("Done!") }
-        )
-
-
-//        retrofitData.enqueue(object : Callback<MyData?> {
-//            override fun onResponse(call: Call<MyData?>, response: Response<MyData?>) {
-//                val responseBody = response.body()!!
-//
-//                // responseとlayoutをつなげる
-//                myAdapter = MyAdapter(baseContext, responseBody.items)
-//                myAdapter.notifyDataSetChanged()
-//                binding.recyclerviewUsers.adapter = myAdapter
-//            }
-//
-//            override fun onFailure(call: Call<MyData?>, t: Throwable) {
-//                Log.d("MainActivity", "onFailure "+t.message)
-//            }
-//        })
-    }
-
 }
 
