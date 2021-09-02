@@ -18,6 +18,10 @@ class MyAdapter(val context: Context, var userList: List<Item>) :
 
     }
 
+    fun isEmpty(): Boolean{
+        return userList.isEmpty()
+    }
+
     fun setData(dataList: List<Item>) {
         this.userList = dataList
     }

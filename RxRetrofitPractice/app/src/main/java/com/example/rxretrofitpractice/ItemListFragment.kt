@@ -30,6 +30,8 @@ class ItemListFragment : Fragment() {
     lateinit var myAdapter: MyAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        myAdapter = MyAdapter((context)!!, listOf())
+
     }
 
     override fun onCreateView(
@@ -43,9 +45,6 @@ class ItemListFragment : Fragment() {
         // Set up adapter
         _binding?.itemList?.setHasFixedSize(true)
         _binding?.itemList?.layoutManager = LinearLayoutManager(context)
-        myAdapter = MyAdapter((context)!!, listOf())
-        getMyData()
-
         return binding.root
     }
 
@@ -54,7 +53,11 @@ class ItemListFragment : Fragment() {
         _binding = null
     }
 
-    private fun getMyData() {
+    fun isListEmpty(): Boolean{
+        return myAdapter.isEmpty()
+    }
+
+    fun getMyData() {
         val retrofitBuilder = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(BASE_URL)

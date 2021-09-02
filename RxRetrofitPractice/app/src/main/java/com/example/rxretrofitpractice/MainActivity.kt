@@ -2,6 +2,7 @@ package com.example.rxretrofitpractice
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rxretrofitpractice.databinding.ActivityMainBinding
@@ -20,7 +21,7 @@ const val BASE_URL = "https://www.googleapis.com/"
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var itemListFragment: ItemListFragment
+    private val itemListFragment: ItemListFragment = ItemListFragment()
     lateinit var linearLayoutManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,13 +29,27 @@ class MainActivity : AppCompatActivity() {
         // Binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // Fragment
-        itemListFragment = ItemListFragment()
+
+        binding.getDataButton.setOnClickListener {
+            showConfirmDialog()
+            createItemListFragment(R.id.listContainer)
+        }
+    }
+
+    // データリストを表示するフラグメントを生成し表示
+    private fun createItemListFragment(containerId: Int){
+        itemListFragment.getMyData()
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.listContainer, itemListFragment)
+            replace(containerId, itemListFragment)
             addToBackStack(null)
             commit()
         }
+    }
+
+    // ダイアログを作成
+    private fun showConfirmDialog(){
+        val dialogFragment: ConfirmDialogFragment = ConfirmDialogFragment()
+        dialogFragment.show(supportFragmentManager, "ConfirmDialogFragment")
     }
 }
 
