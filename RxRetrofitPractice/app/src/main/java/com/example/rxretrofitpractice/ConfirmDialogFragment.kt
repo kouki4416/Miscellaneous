@@ -33,7 +33,8 @@ class ConfirmDialogFragment : DialogFragment() {
             builder.setMessage(R.string.dialog_confirm_dragonballList)
                 .setPositiveButton(R.string.ok,
                     DialogInterface.OnClickListener { dialog, id ->
-                        // Ok action
+                        // FragmentからMainActivityのmethodを呼ぶ方法
+                        (activity as MainActivity).createItemListFragment(R.id.listContainer)
                     })
                 .setNegativeButton(R.string.cancel,
                     DialogInterface.OnClickListener { dialog, id ->

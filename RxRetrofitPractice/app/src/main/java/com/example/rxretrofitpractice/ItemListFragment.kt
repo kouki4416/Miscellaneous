@@ -76,7 +76,7 @@ class ItemListFragment : Fragment() {
                 _binding?.itemList?.adapter = myAdapter
             },
             onError = { it.printStackTrace() },
-            onComplete = { println("Done!") }
+            onComplete = {  }
         )
     }
 

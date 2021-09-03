@@ -32,12 +32,12 @@ class MainActivity : AppCompatActivity() {
 
         binding.getDataButton.setOnClickListener {
             showConfirmDialog()
-            createItemListFragment(R.id.listContainer)
+            //createItemListFragment(R.id.listContainer)
         }
     }
 
     // データリストを表示するフラグメントを生成し表示
-    private fun createItemListFragment(containerId: Int){
+    public fun createItemListFragment(containerId: Int){
         itemListFragment.getMyData()
         supportFragmentManager.beginTransaction().apply {
             replace(containerId, itemListFragment)
