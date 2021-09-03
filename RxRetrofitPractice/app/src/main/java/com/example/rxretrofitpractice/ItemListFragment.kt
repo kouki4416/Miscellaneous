@@ -2,6 +2,7 @@ package com.example.rxretrofitpractice
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rxretrofitpractice.databinding.FragmentItemListBinding
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.Retrofit
@@ -69,14 +71,19 @@ class ItemListFragment : Fragment() {
         // This getData is from api and async using rxjava
         //https://friegen.xyz/android-rxjava-retrofit/
         val retrofitData = retrofitBuilder.getData()
-        retrofitData.subscribeOn(Schedulers.io()).subscribeBy(
+        retrofitData.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeBy(
             onNext = {
                 myAdapter.setData(it.items)
                 myAdapter.notifyDataSetChanged()
                 _binding?.itemList?.adapter = myAdapter
+                Log.d("onNext", "onNext")
             },
-            onError = { it.printStackTrace() },
-            onComplete = {  }
+            onError = { it.printStackTrace()
+                        Log.d("onError","onError")
+                      },
+            onComplete = { (activity as MainActivity).updateItemListFragment()
+                Log.d("Done","Done")
+            }
         )
     }
 

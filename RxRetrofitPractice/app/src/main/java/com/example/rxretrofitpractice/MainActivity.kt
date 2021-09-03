@@ -46,6 +46,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    public fun updateItemListFragment(){
+        supportFragmentManager.beginTransaction().apply {
+            detach(itemListFragment)
+            attach(itemListFragment)
+            commit()
+        }
+    }
+
     // ダイアログを作成
     private fun showConfirmDialog(){
         val dialogFragment: ConfirmDialogFragment = ConfirmDialogFragment()
