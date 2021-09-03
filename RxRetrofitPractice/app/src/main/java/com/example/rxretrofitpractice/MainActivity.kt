@@ -32,26 +32,15 @@ class MainActivity : AppCompatActivity() {
 
         binding.getDataButton.setOnClickListener {
             showConfirmDialog()
-            //createItemListFragment(R.id.listContainer)
         }
     }
 
     // データリストを表示するフラグメントを生成し表示
     public fun createItemListFragment(containerId: Int){
-        itemListFragment.getMyData()
-        supportFragmentManager.beginTransaction().apply {
-            replace(containerId, itemListFragment)
-            addToBackStack(null)
-            commit()
-        }
-    }
-
-    public fun updateItemListFragment(){
-        supportFragmentManager.beginTransaction().apply {
-            detach(itemListFragment)
-            attach(itemListFragment)
-            commit()
-        }
+        supportFragmentManager.beginTransaction()
+            .replace(containerId, itemListFragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     // ダイアログを作成

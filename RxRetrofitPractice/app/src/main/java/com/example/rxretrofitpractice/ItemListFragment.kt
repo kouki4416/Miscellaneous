@@ -30,10 +30,10 @@ class ItemListFragment : Fragment() {
     private var _binding: FragmentItemListBinding? = null
     private val binding get() = _binding!!
     lateinit var myAdapter: MyAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         myAdapter = MyAdapter((context)!!, listOf())
-
     }
 
     override fun onCreateView(
@@ -41,13 +41,17 @@ class ItemListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val context: Context? = container?.context
-
         // Inflate the layout for this fragment
         _binding = FragmentItemListBinding.inflate(inflater, container, false)
         // Set up adapter
         _binding?.itemList?.setHasFixedSize(true)
         _binding?.itemList?.layoutManager = LinearLayoutManager(context)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getMyData()
     }
 
     override fun onDestroyView() {
@@ -76,14 +80,9 @@ class ItemListFragment : Fragment() {
                 myAdapter.setData(it.items)
                 myAdapter.notifyDataSetChanged()
                 _binding?.itemList?.adapter = myAdapter
-                Log.d("onNext", "onNext")
             },
-            onError = { it.printStackTrace()
-                        Log.d("onError","onError")
-                      },
-            onComplete = { (activity as MainActivity).updateItemListFragment()
-                Log.d("Done","Done")
-            }
+            onError = { it.printStackTrace() },
+            onComplete = { }
         )
     }
 
